@@ -62,7 +62,7 @@ import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-ap
 import{getAuth,onAuthStateChanged,signInWithEmailAndPassword,createUserWithEmailAndPassword,signOut}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import{getFirestore,doc,getDoc,setDoc}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 // ▼ Firebaseコンソールの「ウェブアプリ」の設定値に置き換える
-const cfg={apiKey:"YOUR_API_KEY",authDomain:"YOUR_PROJECT.firebaseapp.com",projectId:"YOUR_PROJECT",appId:"YOUR_APP_ID"};
+const cfg={apiKey:"IzaSyBjRJlWCA2I_trr9w7vSw7rJWa35evMWkM",authDomain:"study-management-app-39cd5.firebaseapp.com",projectId:"study-management-app-39cd5",appId:"1:1024664677404:web:9731ac9f17784b09e043d9"};
 const auth=getAuth(initializeApp(cfg)),db=getFirestore();
 
 const $=s=>document.querySelector(s),esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
