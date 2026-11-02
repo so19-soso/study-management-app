@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#2b59d6">
+<link rel="manifest" href="manifest.json">
+<title>勉強ノート</title>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+:root{--bg:#f2f5fa;--cd:#fff;--tx:#17233b;--mu:#6b778c;--ac:#2b59d6;--at:#fff;--bd:#dde3ee;--wa:#d9473f}
+[data-t=dark]{--bg:#10131a;--cd:#1a1f2a;--tx:#e8ecf4;--mu:#8e99ad;--ac:#7fb0ff;--at:#0b1220;--bd:#2a3140;--wa:#ff7a70}
+[data-t=pastel]{--bg:#fdf0f4;--cd:#fff;--tx:#4a3340;--mu:#a08793;--ac:#e07aa0;--at:#fff;--bd:#f3d9e2}
+[data-t=mint]{--bg:#edf8f3;--cd:#fff;--tx:#1f3a30;--mu:#6f9285;--ac:#3fa585;--at:#fff;--bd:#d2eadf}
+body{font:400 1rem/1.5 "Zen Maru Gothic",system-ui,sans-serif;background:var(--bg);color:var(--tx);padding:env(safe-area-inset-top) 0 0}
+#app{max-width:560px;margin:auto;padding:14px 14px 96px}
+h2{font-size:1.4rem;font-weight:900;margin:4px 0 12px}h3{font-size:1rem;margin:14px 0 8px}
+small,.mu{color:var(--mu);font-size:.8rem}b{font-weight:700}
+.c{background:var(--cd);border:1px solid var(--bd);border-radius:16px;padding:12px 14px;margin-bottom:12px}
+.row{display:flex;gap:8px;align-items:center}.sp{justify-content:space-between}.fl{flex:1;min-width:0}.w{width:100%;margin-bottom:10px}
+.btn{font:inherit;font-weight:700;border:1.5px solid var(--bd);background:var(--cd);color:var(--tx);border-radius:999px;padding:10px 16px;cursor:pointer}
+.pri{background:var(--ac);color:var(--at);border-color:var(--ac)}.btn.w{display:block}
+.ic{font:inherit;font-size:1.3rem;border:0;background:none;color:var(--tx);padding:4px 10px;cursor:pointer}
+.chip{font:inherit;font-size:.8rem;border:1px solid var(--bd);background:var(--cd);color:var(--tx);border-radius:8px;padding:4px 10px;cursor:pointer}
+.chip.on{background:var(--ac);color:var(--at);border-color:var(--ac)}
+input,select,textarea{font:inherit;color:var(--tx);background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:9px 10px;width:100%;margin:4px 0 10px}
+input[type=radio],input[type=checkbox]{width:auto;margin:0 10px 0 0}input[type=range]{-webkit-appearance:none;appearance:none;height:24px;padding:0;border:0;background:transparent;margin:4px 0 0}
+input[type=range]::-webkit-slider-runnable-track{height:6px;background:var(--bd);border-radius:3px}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:var(--ac);margin-top:-9px;border:0}
+input[type=range]::-moz-range-track{height:6px;background:var(--bd);border-radius:3px}
+input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:var(--ac);border:0}
+.tk{position:relative;height:30px;margin-bottom:6px}.tk i{position:absolute;top:0;transform:translateX(-50%);font-style:normal;font-size:.65rem;color:var(--mu);white-space:nowrap;text-align:center}
+.tk i::before{content:"";display:block;width:1px;height:6px;background:var(--mu);margin:0 auto 2px}
+.it{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--bd);cursor:pointer}.it:last-child{border:0}
+.dot{width:10px;height:10px;border-radius:50%;flex:none}
+.bar{height:7px;background:var(--bg);border-radius:4px;overflow:hidden;margin-top:5px}.bar i{display:block;height:100%;background:var(--ac)}
+.tag{font-size:.7rem;border-radius:6px;padding:1px 7px;border:1px solid var(--ac);color:var(--ac)}.tag.m{background:var(--ac);color:var(--at)}.tag.r{border-color:var(--wa);color:var(--wa)}
+.cd{text-align:center;padding:18px 0 14px}.cd b{display:block;font-size:4.2rem;line-height:1;font-weight:900;color:var(--ac)}
+.big{font-size:3.4rem;font-weight:900;font-variant-numeric:tabular-nums;line-height:1.1}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.g2 .c{margin:0;text-align:center}.g2 b{font-size:1.4rem;font-variant-numeric:tabular-nums}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;text-align:center;margin:6px 0 12px}
+.cal button{font:inherit;font-size:.85rem;border:0;border-radius:10px;background:var(--cd);color:var(--tx);height:38px;position:relative}
+.cal .sel{background:var(--ac);color:var(--at)}.cal .tdy{outline:1.5px solid var(--ac)}.cal .dt::after{content:"";position:absolute;bottom:4px;left:50%;width:4px;height:4px;margin-left:-2px;border-radius:50%;background:var(--wa)}
+.cal .du::before{content:"";position:absolute;top:4px;right:5px;border-left:4px solid transparent;border-right:4px solid transparent;border-top:7px solid var(--wa)}.cal .out{opacity:.35}.mb{display:none}
+.ch{display:flex;gap:6px;align-items:flex-end;height:110px;margin-top:10px}.ch>div{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center}.ch i{width:100%;background:var(--ac);border-radius:5px 5px 0 0;min-height:2px}
+.hm button{height:46px;padding:0;overflow:hidden}.hm i{position:absolute;inset:0;background:var(--ac)}.hm button span{position:relative;display:block;font-size:.8rem;line-height:1.15}
+.hm button small{font-size:.6rem}.hm .hi,.hm .hi small{color:var(--at)}.hm .ms small{color:var(--wa);font-weight:700}.hm .hs{outline:2px solid var(--tx)}
+#nv{position:fixed;bottom:0;left:0;right:0;display:none;grid-template-columns:repeat(5,1fr);background:var(--cd);border-top:1px solid var(--bd);padding:6px 0 calc(6px + env(safe-area-inset-bottom));z-index:5}
+#nv button{font:inherit;font-size:.7rem;border:0;background:none;color:var(--mu);display:flex;flex-direction:column;align-items:center;gap:1px;transition:transform .18s}#nv button.on{color:var(--ac);font-weight:900;transform:translateY(-6px) scale(1.28)}#nv i{font-style:normal;font-size:1.25rem;line-height:1}
+#nv .go{background:var(--ac);color:var(--at);width:56px;height:56px;border-radius:50%;margin:-24px auto 0;justify-content:center;font-size:1.4rem}
+.ctl{position:fixed;bottom:0;left:0;right:0;display:flex;gap:8px;justify-content:center;padding:12px 12px calc(14px + env(safe-area-inset-bottom));background:var(--bg)}
+#live{text-align:center;padding:10px 0}#live .now{font-weight:700;margin:6px 0}#live .subs{margin:16px auto;max-width:340px;text-align:left}
+#live .subs div{display:flex;justify-content:space-between;padding:5px 0;font-variant-numeric:tabular-nums}
+#md{position:fixed;inset:0;background:#0007;display:none;align-items:flex-end;z-index:20}#md.on{display:flex}
+.sh{background:var(--cd);width:100%;max-width:560px;margin:auto;border-radius:20px 20px 0 0;padding:18px 18px calc(18px + env(safe-area-inset-bottom));max-height:86vh;overflow:auto}
+#bo{position:fixed;inset:0;background:var(--bg);display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;z-index:15}#bo.on{display:flex}
+#ts{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--tx);color:var(--bg);padding:8px 16px;border-radius:999px;display:none;z-index:30;font-size:.85rem}
+.lg{margin-top:12vh}.lg h2{font-size:2rem}
+</style></head>
+<body><div id="app">読み込み中…</div>
+<nav id="nv">
+<button data-a="nav" data-v="home"><i>🏠</i><span>ホーム</span></button>
+<button data-a="nav" data-v="today"><i>📅</i><span>今日</span></button>
+<button class="go" data-a="nav" data-v="timer">▶</button>
+<button data-a="nav" data-v="list"><i>📝</i><span>全体</span></button>
+<button data-a="nav" data-v="stats"><i>📊</i><span>記録</span></button>
+</nav>
+<div id="bo"></div><div id="md"></div><div id="ts"></div>
+<script type="module">
+const $=s=>document.querySelector(s),esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const pad=n=>String(n).padStart(2,"0"),dstr=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`,td=()=>dstr(new Date());
+const fmt=s=>{s=Math.floor(s);return`${pad(s/3600|0)}:${pad(s%3600/60|0)}:${pad(s%60)}`},hm=s=>`${s/3600|0}時間${Math.round(s%3600/60)}分`;
+const addD=(s,n)=>{const d=new Date(s+"T00:00");d.setDate(d.getDate()+n);return dstr(d)},dd=(a,b)=>Math.round((new Date(a+"T00:00")-new Date(b+"T00:00"))/864e5);
+const jd=s=>new Date(s+"T00:00").toLocaleDateString("ja-JP",{month:"long",day:"numeric",weekday:"short"});
+const uid=()=>Math.random().toString(36).slice(2,9),COL=["#2b59d6","#e0617a","#2e9d6b","#e0a030","#8a5cd6","#17a2b8","#d9473f","#6b778c"];
+const D0=()=>({subjects:[],folders:[],cur:"all",todos:[],plan:{},logs:[],results:[],set:{theme:"light",goal:120,fs:16,vib:1,pomo:0,brk:5,all:0}});
+let S=D0(),U={uid:"local"},view="home",selDate=td(),cm=td().slice(0,7),fs="",T=null,ac,wl,sv;
+const gt=i=>S.todos.find(t=>t.id===i),sj=i=>S.subjects.find(x=>x.id===i)||{name:"未設定",color:"#999"};
+const inF=f=>S.cur==="all"||f===S.cur,fo=i=>S.folders.find(x=>x.id===i);
+const secOn=(d,s,g)=>S.logs.filter(l=>l.d===d&&(!s||l.s===s)&&(g||inF(l.f))).reduce((a,l)=>a+l.sec,0);
+const inRange=(f,d)=>{const x=fo(f);return!x||((!x.start||d>=x.start)&&(!x.end||d<=x.end))};
+const rEnd=t=>t.due||fo(t.f)?.end||null;
+const actRep=(t,d)=>t.rep&&(!t.rs||d>=t.rs)&&(!rEnd(t)||d<=rEnd(t))&&inRange(t.f,d);
+const dayIds=d=>[...new Set([...(S.plan[d]||[]).filter(i=>gt(i)),...S.todos.filter(t=>actRep(t,d)).map(t=>t.id)])];
+const sk=(t,d)=>t.rep?d:"_",gs=(t,d)=>(t.sx||{})[sk(t,d)]||{};
+const pc=(t,x)=>{const c=v=>Math.max(0,Math.min(100,Math.round(v)));
+if(t.m==="cnt")return t.n?c((x.dn||0)/t.n*100):0;
+if(t.m==="rng"){const w=t.b-t.a+1;return w>0?c(((x.pg??t.a-1)-t.a+1)/w*100):0}
+if(t.m==="chk"){const l=t.it||[];return l.length?c((x.ck||[]).filter(Boolean).length/l.length*100):0}
+return x.p??(t.rep?0:t.p||0)};
+const pOf=(t,d=td())=>pc(t,gs(t,d));
+const setSt=(t,d,o)=>{t.sx=t.sx||{};t.sx[sk(t,d)]={...gs(t,d),...o}};
+const full=t=>t.m==="cnt"?{dn:t.n}:t.m==="rng"?{pg:t.b}:t.m==="chk"?{ck:(t.it||[]).map(()=>true)}:{p:100};
+const zero=t=>({p:0,dn:0,pg:(t.a||1)-1,ck:[]});
+const tks=(mn,mx)=>{const r=mx-mn,k=r<=10?r:[10,8,6,5,4].find(k=>r%k===0)||10;if(k<1)return"";let h="";for(let i=0;i<=k;i++)h+=`<i style="left:calc(12px + (100% - 24px) * ${i/k})">${mn+Math.round(r*i/k)}</i>`;return`<div class="tk">${h}</div>`};
+const slT=(t,v)=>t.m==="cnt"?`${v} / ${t.n}${esc(t.u||"")}`:t.m==="rng"?(v<t.a?"未着手":`p.${v} まで`):`${v}%`;
+const pEd=(t,x)=>{const c=(v,a,b)=>Math.max(a,Math.min(b,v));
+if(t.m==="chk")return`<label>終わった項目</label>${(t.it||[]).map((v,i)=>`<label class="row" style="padding:5px 0"><input type="checkbox" class="ck" ${(x.ck||[])[i]?"checked":""}>${esc(v)}</label>`).join("")}<br>`;
+let mn=0,mx=100,st=5,v=pc(t,x),lb="進行度",bt="";
+if(t.m==="cnt"){mx=t.n;st=1;v=c(x.dn||0,0,t.n);lb="やった数";bt=`<button class="chip" data-a="stp" data-n="-1">−1</button><button class="chip" data-a="stp" data-n="1">＋1</button><button class="chip" data-a="stp" data-n="5">＋5</button>`}
+else if(t.m==="rng"){mn=t.a-1;mx=t.b;st=1;v=c(x.pg??mn,mn,mx);lb=`どこまで終わった？（p.${t.a}〜${t.b}）`;bt=`<button class="chip" data-a="stp" data-n="-1">−1</button><button class="chip" data-a="stp" data-n="1">＋1</button>`}
+return`<div class="row sp"><label>${lb}</label>${bt?`<span class="row" style="gap:6px">${bt}</span>`:""}</div><div style="text-align:center;margin:4px 0"><b id="pv" style="font-size:1.3rem">${slT(t,v)}</b></div><input id="pg" type="range" min="${mn}" max="${mx}" step="${st}" value="${v}">${tks(mn,mx)}`};
+const pRd=t=>t.m==="chk"?{ck:[...document.querySelectorAll("#md .ck")].map(c=>c.checked)}:t.m==="cnt"?{dn:+val("pg")}:t.m==="rng"?{pg:+val("pg")}:{p:+val("pg")};
+const showM=()=>document.querySelectorAll("#md .mb").forEach(b=>b.style.display=b.dataset.m===val("pm")?"block":"none");
+const lim=()=>{const f=fo($("#tf")?.value),d=$("#td"),r=$("#rs");d.max=f?.end||"";r.min=f?.start||"";r.max=d.value||f?.end||""};
+const streak=()=>{let c=0,d=td();if(!secOn(d,0,1))d=addD(d,-1);while(secOn(d,0,1)>0){c++;d=addD(d,-1)}return c};
+const sT=()=>T?localStorage.setItem("sn_t",JSON.stringify(T)):localStorage.removeItem("sn_t");
+const el=()=>T?T.acc+(T.st==="run"?(Date.now()-T.t0)/1e3:0):0,sg=()=>T?T.seg+(T.st==="run"?(Date.now()-T.t0)/1e3:0):0;
+const bank=()=>{if(T){T.acc=el();T.seg=sg();T.t0=Date.now()}};
+const M=h=>{$("#md").innerHTML=`<div class="sh">${h}</div>`;$("#md").classList.add("on")},X=()=>$("#md").classList.remove("on");
+const toast=t=>{const e=$("#ts");e.textContent=t;e.style.display="block";setTimeout(()=>e.style.display="none",2200)};
+const sel=(id,o,v)=>`<select id="${id}">${o.map(([a,b])=>`<option value="${a}" ${a==v?"selected":""}>${esc(b)}</option>`).join("")}</select>`;
+const val=i=>$("#"+i).value;
+function save(){try{localStorage.setItem("sn_data",JSON.stringify(S))}catch{toast("保存できませんでした（容量不足の可能性）")}}
+function beep(){try{ac=ac||new AudioContext();[0,.4,.8].forEach(t=>{const o=ac.createOscillator(),g=ac.createGain(),n=ac.currentTime+t;o.frequency.value=880;g.gain.setValueAtTime(.25,n);g.gain.exponentialRampToValueAtTime(.001,n+.3);o.connect(g);g.connect(ac.destination);o.start(n);o.stop(n+.3)})}catch{}S.set.vib&&navigator.vibrate?.([300,150,300])}
+
+function nextExam(){let b=null;S.folders.filter(f=>!f.arch&&inF(f.id)).forEach(f=>{let n=null,l="";if(f.start&&f.start>=td()){n=dd(f.start,td());l=`${f.name} 開始まで`}else if(f.start&&f.end&&f.start<td()&&f.end>=td()){n=dd(f.end,td());l=`${f.name} 最終日まで`}if(n!==null&&(!b||n<b.n))b={n,l}});return b}
+function overdue(){const t=td(),cur=dayIds(t),o=new Set();Object.keys(S.plan).filter(d=>d<t).forEach(d=>S.plan[d].forEach(i=>{const x=gt(i);if(x&&!x.rep&&inF(x.f)&&pOf(x)<100&&!cur.includes(i)&&inRange(x.f,t))o.add(i)}));return[...o]}
+const row=t=>{const p=pOf(t);return`<div class="it" data-a="tedit" data-i="${t.id}"><span class="dot" style="background:${sj(t.s).color}"></span><div class="fl"><b>${esc(t.title)}</b> ${t.must?'<span class="tag m">必須</span>':'<span class="tag">任意</span>'}${t.rep?' <span class="tag">毎日</span>':""}${t.due?` <span class="tag ${!t.rep&&t.due<td()&&p<100?"r":""}">〆${t.due.slice(5)}</span>`:""}${S.cur==="all"&&!nf&&fo(t.f)?` <small>${esc(fo(t.f).name)}</small>`:""}<div class="bar"><i style="width:${p}%"></i></div></div><small>${t.rep?"今日 ":""}${p}%</small></div>`};
+let sid="",sback="home",nf=0,hid=[],sm=td().slice(0,7),hs="";
+const fkey=r=>r.f||"_";
+const exOrd=R=>{const ix=g=>S.folders.findIndex(x=>x.id===g),kd=g=>fo(g)?.start||fo(g)?.end||"9";return[...new Set(R.map(fkey))].sort((a,b)=>kd(a)<kd(b)?-1:kd(a)>kd(b)?1:ix(a)-ix(b))};
+const rchart=R=>{const fk=fkey,fl=exOrd(R);
+if(fl.length<2)return`<p class="mu">${S.cur!=="all"?"「📚 全て」表示に切り替えると、考査ごとの推移グラフが見られます":"考査の結果が2回分たまると、推移グラフが出ます"}</p>`;
+const ss=S.subjects.filter(s=>R.some(r=>r.s===s.id));if(!ss.length)return"";
+const W=340,H=215,L=30,RR=14,TP=14,B=46,pw=W-L-RR,ph=H-TP-B,ym=Math.max(100,Math.ceil(Math.max(...R.map(r=>r.sc))/10)*10);
+const X=i=>L+pw*i/(fl.length-1),Y=v=>TP+ph*(1-v/ym),sc=(g,s)=>{const r=R.filter(x=>fk(x)===g&&x.s===s);return r.length?r[r.length-1].sc:null};
+const ls=ss.map(s=>({id:s.id,c:s.color,n:s.name,p:fl.map((g,i)=>{const v=sc(g,s.id);return v==null?null:[X(i),Y(v),v]}).filter(Boolean)}));
+const av={id:"avg",c:"var(--tx)",n:"平均",p:fl.map((g,i)=>{const v=ss.map(s=>sc(g,s.id)).filter(v=>v!=null);if(!v.length)return null;const m=v.reduce((a,b)=>a+b,0)/v.length;return[X(i),Y(m),Math.round(m*10)/10]}).filter(Boolean)};
+const tgp=ss.map(s=>({id:s.id,c:s.color,p:fl.map((g,i)=>{const r=R.filter(x=>fk(x)===g&&x.s===s.id).at(-1);return r&&r.tg?[X(i),Y(r.tg)]:null}).filter(Boolean)})),hasTg=tgp.some(l=>l.p.length);
+const dtg=l=>hid.includes("tg")||hid.includes(l.id)||!l.p.length?"":`<polyline fill="none" style="stroke:${l.c}" stroke-width="1.3" stroke-dasharray="2 3" points="${l.p.map(p=>p[0]+","+p[1]).join(" ")}"/>${l.p.map(p=>`<rect x="${p[0]-3}" y="${p[1]-3}" width="6" height="6" transform="rotate(45 ${p[0]} ${p[1]})" stroke-width="1.5" style="fill:var(--cd);stroke:${l.c}"/>`).join("")}`;
+const all=[...ls,av],grid=[0,.25,.5,.75,1].map(f=>{const y=Y(ym*f);return`<line x1="${L}" x2="${W-RR}" y1="${y}" y2="${y}" style="stroke:var(--bd)"/><text x="${L-4}" y="${y+3}" text-anchor="end" font-size="9" style="fill:var(--mu)">${Math.round(ym*f)}</text>`}).join("");
+const xl=fl.map((g,i)=>{const n=fo(g)?.name||"未分類";return`<text x="${X(i)}" y="${H-B+14}" text-anchor="middle" font-size="9" style="fill:var(--mu)"><tspan x="${X(i)}">${esc(n.slice(0,5))}</tspan>${n.length>5?`<tspan x="${X(i)}" dy="11">${esc(n.slice(5,10))}</tspan>`:""}</text>`}).join("");
+const dr=l=>hid.includes(l.id)||!l.p.length?"":`<polyline fill="none" style="stroke:${l.c}" stroke-width="${l.id==="avg"?2.5:1.8}" ${l.id==="avg"?'stroke-dasharray="5 3"':""} points="${l.p.map(p=>p[0]+","+p[1]).join(" ")}"/>${l.p.map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="3.2" style="fill:${l.c}"/>${l.id==="avg"?`<text x="${p[0]}" y="${p[1]-7}" text-anchor="middle" font-size="9" font-weight="700" style="fill:var(--tx)">${p[2]}</text>`:""}`).join("")}`;
+const lg=(hasTg?`<button class="chip" data-a="rtg" data-i="tg" style="border:1.5px dashed var(--tx)${hid.includes("tg")?";opacity:.45":""}">◇ 目標</button>`:"")+all.map(l=>`<button class="chip" data-a="rtg" data-i="${l.id}" style="${hid.includes(l.id)?"":`background:${l.c};border-color:${l.c};color:${l.id==="avg"?"var(--bg)":"#fff"}`}">${esc(l.n)}</button>`).join("");
+return`<div class="row" style="flex-wrap:wrap;margin:6px 0">${lg}</div><svg viewBox="0 0 ${W} ${H}" width="100%" style="display:block">${grid}${xl}${tgp.map(dtg).join("")}${all.map(dr).join("")}</svg><small>考査の日付順に並びます。◇は目標点。上のボタンで表示を切り替えられます</small>`};
+const rem=t=>t.m==="cnt"?Math.max(0,t.n-(gs(t,"_").dn||0)):t.m==="rng"?Math.max(0,t.b-(gs(t,"_").pg??t.a-1)):t.m==="chk"?(t.it||[]).length-(gs(t,"_").ck||[]).filter(Boolean).length:100-pOf(t);
+const qu=t=>t.m==="cnt"?(t.u||"個"):t.m==="rng"?"ページ":t.m==="chk"?"項目":"%";
+function quotas(){const t0=td();return S.todos.filter(t=>!t.rep&&inF(t.f)&&rEnd(t)&&pOf(t)<100&&!(fo(t.f)?.start>t0)).map(t=>{const e=rEnd(t),r=rem(t),od=e<t0,days=od?0:dd(e,t0)+1;
+if(!t.bs||t.bs.d!==t0)t.bs={d:t0,v:r};else if(r>t.bs.v)t.bs.v=r;
+const q=od?r:Math.ceil(t.bs.v/days);return{t,r,e,od,days,q,done:Math.max(0,t.bs.v-r)}}).filter(o=>o.r>0).sort((a,b)=>a.e<b.e?-1:1)}
+const qrow=o=>{const{t,r,od,days,q,done}=o,u=esc(qu(t)),ok=done>=q&&!od,p=S.plan[td()]||[];
+return`<div class="it" style="cursor:default"><span class="dot" style="background:${sj(t.s).color}"></span><div class="fl"><b>${esc(t.title)}</b> ${od?'<span class="tag r">期限切れ</span>':days===1?'<span class="tag r">今日が期限</span>':""}<div class="bar"><i style="width:${od||!q?0:Math.min(100,done/q*100)}%"></i></div><small>${od?"":`今日 ${Math.min(done,q)}/${q}${u}・`}残り${r}${u}${od?"":`・あと${days}日`}</small></div><div style="text-align:right;flex:none">${ok?"<b>✓ OK</b>":`<b>${q}${u}</b>`}<br>${p.includes(t.id)?"<small>予定済み</small>":`<button class="chip" data-a="qadd" data-i="${t.id}">今日に入れる</button>`}</div></div>`};
+const tsCard=R=>{const fl=exOrd(R),ss=S.subjects.filter(s=>R.some(r=>r.s===s.id));if(!fl.length||!ss.length)return"";
+const tm=(g,s)=>S.logs.filter(l=>(l.f||"_")===g&&l.s===s).reduce((a,l)=>a+l.sec,0),mx=Math.max(1,...ss.flatMap(s=>fl.map(g=>tm(g,s.id))));
+return ss.map(s=>{const pts=fl.map(g=>{const r=R.filter(x=>fkey(x)===g&&x.s===s.id).at(-1);return r?{g,sc:r.sc,t:tm(g,s.id)}:null}).filter(Boolean);let msg="";
+if(pts.length>1){const a=pts.at(-2),b=pts.at(-1),dT=b.t-a.t,dS=b.sc-a.sc;msg=a.t>0&&b.t>0?(dT>0&&dS>0?"勉強時間を増やして、点数も上がりました👏":dT>0?"時間を増やしましたが点数は伸びていません。やり方を見直すチャンスです":dS>0?"勉強時間が減っても点数が上がりました。効率が上がっています":"勉強時間が減って点数も下がっています。時間の確保がカギかもしれません"):"勉強時間の記録がない考査があるため、比べられません"}
+return`<div style="margin:12px 0 2px"><span class="dot" style="display:inline-block;background:${s.color}"></span> <b>${esc(s.name)}</b></div>${pts.map(p=>`<div style="margin:6px 0"><div class="row sp"><small>${esc(fo(p.g)?.name||"未分類")}</small><small>${p.t?hm(p.t):"時間の記録なし"} ／ <b>${p.sc}点</b></small></div><div class="bar"><i style="width:${p.t/mx*100}%"></i></div><div class="bar"><i style="width:${Math.min(100,p.sc)}%;background:${s.color}"></i></div></div>`).join("")}${msg?`<small>💡 ${msg}</small>`:""}`}).join("")+`<p><small>上の棒＝勉強時間（その考査のフォルダ内の合計）／下の棒＝点数</small></p>`};
+const mi=m=>m<60?`${m}分`:`${(m/60).toFixed(1)}h`;
+const heat=()=>{const[y,m]=sm.split("-").map(Number),w=new Date(y,m-1,1).getDay(),n=new Date(y,m,0).getDate(),g=S.set.goal*60,fst=S.logs.filter(l=>inF(l.f)).map(l=>l.d).sort()[0]||"9";let c="",tot=0,dys=0,ok=0;
+for(let i=0;i<w;i++)c+="<span></span>";
+for(let d=1;d<=n;d++){const q=`${sm}-${pad(d)}`,s=secOn(q),r=g?Math.min(1,s/g):1,miss=!s&&q<td()&&q>fst;tot+=s;if(s)dys++;if(s&&s>=g)ok++;
+c+=`<button data-a="hd" data-d="${q}" class="${q===td()?"tdy":""} ${q===hs?"hs":""} ${s&&r>=.6?"hi":""} ${miss?"ms":""}"><i style="opacity:${s?(.2+.8*r).toFixed(2):0}"></i><span>${d}<br><small>${s?mi(Math.round(s/60)):miss?"×":"　"}</small></span></button>`}
+let det="";if(hs){const ls=S.logs.filter(l=>l.d===hs&&inF(l.f)),by=S.subjects.map(s=>({s,v:ls.filter(l=>l.s===s.id).reduce((a,l)=>a+l.sec,0)})).filter(o=>o.v);
+det=`<div class="c"><div class="row sp"><b>${jd(hs)}</b><b>${hm(secOn(hs))}</b></div>${by.map(o=>`<div class="row sp" style="padding:3px 0"><span><span class="dot" style="display:inline-block;background:${o.s.color}"></span> ${esc(o.s.name)}</span><span>${hm(o.v)}</span></div>`).join("")}${ls.filter(l=>l.m).map(l=>`<p><small>${esc(sj(l.s).name)}</small> ${esc(l.m)}</p>`).join("")}${by.length?"":'<p class="mu">この日の勉強記録はありません</p>'}</div>`}
+return`<div class="c"><div class="row sp"><button class="ic" data-a="smv" data-n="-1">‹</button><b>${y}年${m}月の勉強時間</b><button class="ic" data-a="smv" data-n="1">›</button></div><div class="cal hm">${"日月火水木金土".split("").map(x=>`<small>${x}</small>`).join("")}${c}</div><small>濃いほど長く勉強（目標${S.set.goal}分で最も濃く）／ ×＝勉強しなかった日</small><br><small>今月 ${hm(tot)}・${dys}日勉強・目標達成${ok}日</small></div>${det}`};
+const V={};
+V.subj=()=>{const s=S.subjects.find(x=>x.id===sid);if(!s){view="home";return V.home()}
+const L=S.todos.filter(t=>t.s===sid),so=(a,b)=>(pOf(a)>=100)-(pOf(b)>=100)||((a.due||"9")<(b.due||"9")?-1:1),avg=L.length?Math.round(L.reduce((a,t)=>a+pOf(t),0)/L.length):0,dn=L.filter(t=>pOf(t)>=100).length,
+tot=S.logs.filter(l=>l.s===sid).reduce((a,l)=>a+l.sec,0),w7=[...Array(7)].map((_,i)=>addD(td(),i-6)),wk=S.logs.filter(l=>l.s===sid&&w7.includes(l.d)).reduce((a,l)=>a+l.sec,0),
+gr=[...S.folders.map(f=>({n:`📁 ${f.name}${f.arch?"（アーカイブ）":""}`,l:L.filter(t=>t.f===f.id)})),{n:"フォルダなし",l:L.filter(t=>!t.f||!fo(t.f))}].filter(g=>g.l.length),
+R=S.results.filter(r=>r.s===sid),ord=exOrd(R);R.sort((a,b)=>ord.indexOf(fkey(a))-ord.indexOf(fkey(b)));
+nf=1;const body=gr.map(g=>`<h3>${esc(g.n)}</h3><div class="c">${g.l.sort(so).map(row).join("")}</div>`).join("");nf=0;
+return`<div class="row sp"><button class="ic" data-a="sback">‹</button><h2 style="margin:0"><span class="dot" style="display:inline-block;background:${s.color}"></span> ${esc(s.name)}</h2><button class="ic" data-a="sedit" data-i="${s.id}">✎</button></div>
+<div class="g2" style="margin-top:12px"><div class="c"><small>進行度（全フォルダ）</small><br><b>${avg}%</b><div class="bar"><i style="width:${avg}%"></i></div></div><div class="c"><small>完了したやること</small><br><b>${dn}/${L.length}</b></div></div>
+<div class="g2" style="margin:10px 0"><div class="c"><small>今週の勉強</small><br><b>${hm(wk)}</b></div><div class="c"><small>これまでの勉強</small><br><b>${hm(tot)}</b></div></div>
+<div class="row sp"><h3>やること</h3><button class="chip" data-a="tedit" data-s="${s.id}">＋追加</button></div>
+${body||'<div class="c"><p class="mu">この教科のやることはまだありません</p></div>'}
+<div class="row sp"><h3>考査の結果</h3><button class="chip" data-a="redit" data-s="${s.id}">＋追加</button></div><div class="c">${R.map(r=>`<div class="it" data-a="redit" data-i="${r.id}"><div class="fl"><b>${esc(fo(r.f)?.name||"未分類")}</b></div><span style="text-align:right">${r.sc}点${r.tg?` / 目標${r.tg}`:""}${r.rk?` / ${r.rk}位`:""}${r.tg?(r.sc>=r.tg?` <span class="tag m">達成 +${r.sc-r.tg}</span>`:` <span class="tag r">あと${r.tg-r.sc}点</span>`):""}</span></div>`).join("")||'<p class="mu">この教科の結果はまだありません</p>'}</div>`};
+V.home=()=>{const x=nextExam(),qs=quotas(),ts=secOn(td()),tg=secOn(td(),0,1),all=S.logs.filter(l=>inF(l.f)).reduce((a,l)=>a+l.sec,0),L=S.todos.filter(t=>inF(t.f)),soon=L.filter(t=>!t.rep&&t.due&&pOf(t)<100&&t.due<=addD(td(),2)).length;
+const ps=S.subjects.map(s=>{const l=L.filter(t=>t.s===s.id);return l.length?{s,p:Math.round(l.reduce((a,t)=>a+pOf(t),0)/l.length)}:null}).filter(Boolean),du=L.filter(t=>!t.rep&&t.due&&pOf(t)<100).sort((a,b)=>a.due<b.due?-1:1),Al=S.set.all;
+return`<div class="row sp"><select id="cf" style="font-weight:700;margin:0"><option value="all" ${S.cur==="all"?"selected":""}>📚 全て</option>${S.folders.filter(f=>!f.arch||f.id===S.cur).map(f=>`<option value="${f.id}" ${f.id===S.cur?"selected":""}>📁 ${esc(f.name)}</option>`).join("")}</select><button class="ic" data-a="nav" data-v="set">⚙</button></div>
+<div class="cd">${x?`<small>${esc(x.l)}</small><b>あと${x.n}日</b>`:'<small>設定で考査の日付を入れるとカウントダウンが出ます</small>'}</div>
+${soon?`<div class="c" style="border-color:var(--wa)">⏰ 期限が2日以内のやることが${soon}件あります</div>`:""}
+<div class="row" style="margin-bottom:10px"><button class="btn fl" data-a="nav" data-v="list">全体リスト</button><button class="btn fl" data-a="nav" data-v="today">今日のやること</button></div>
+<button class="btn pri w" data-a="nav" data-v="timer">▶ 勉強タイマー</button>
+<div class="g2"><div class="c"><small>今日</small><br><b>${fmt(ts)}</b></div><div class="c"><small>これまで</small><br><b>${hm(all)}</b></div></div>
+<div class="c" style="margin-top:12px"><div class="row sp"><b>🔥 ${streak()}日連続</b><small>今日の目標 ${S.set.goal}分</small></div><div class="bar"><i style="width:${Math.min(100,tg/60/S.set.goal*100)}%"></i></div></div>
+<h3>🎯 今日のノルマ</h3><div class="c">${(Al?qs:qs.slice(0,3)).map(qrow).join("")||'<p class="mu">期限つきのやることを登録すると、1日あたりの目標量を自動で計算します</p>'}${!Al&&qs.length>3?`<small>ほか${qs.length-3}件（下の「すべて表示」で確認）</small>`:""}</div>
+<div class="row sp"><h3>教科ごとの進行度</h3>${ps.length>1||du.length>1||qs.length>3?`<button class="chip" data-a="tgl">${Al?"▲ 1つだけ表示":"▼ すべて表示"}</button>`:""}</div>
+<div class="c">${(Al?ps:ps.slice(0,1)).map(o=>`<div style="margin:6px 0;cursor:pointer" data-a="sjv" data-i="${o.s.id}"><div class="row sp"><span><span class="dot" style="display:inline-block;background:${o.s.color}"></span> ${esc(o.s.name)}</span><b>${o.p}% ›</b></div><div class="bar"><i style="width:${o.p}%"></i></div></div>`).join("")||'<p class="mu">教科とやることを登録すると表示されます</p>'}</div>
+<h3>提出期限が早い順</h3><div class="c">${(Al?du:du.slice(0,1)).map(row).join("")||'<p class="mu">期限つきの未完了のやることはありません</p>'}</div>`};
+V.list=()=>{const L=S.todos.filter(t=>inF(t.f)&&(!fs||t.s===fs)).sort((a,b)=>(pOf(a)>=100)-(pOf(b)>=100)||((a.due||"9")<(b.due||"9")?-1:1));
+return`<div class="row sp"><h2>全体のやること</h2><button class="btn pri" data-a="tedit">＋追加</button></div>
+<div class="row" style="flex-wrap:wrap;margin-bottom:10px"><button class="chip ${fs?"":"on"}" data-a="fs" data-s="">全部</button>${S.subjects.map(s=>`<button class="chip ${fs===s.id?"on":""}" data-a="fs" data-s="${s.id}">${esc(s.name)}</button>`).join("")}</div>
+<div class="c">${L.map(row).join("")||'<p class="mu">まだありません。「＋追加」から考査の課題を登録しましょう。教科は設定で作れます。</p>'}</div>`};
+V.today=()=>{const p=dayIds(selDate).map(gt).filter(t=>inF(t.f)),od=selDate===td()?overdue():[],F=S.cur!=="all"?fo(S.cur):null,[y,m]=cm.split("-").map(Number),w=new Date(y,m-1,1).getDay(),n=new Date(y,m,0).getDate(),dueOn=d=>S.todos.filter(t=>!t.rep&&t.due===d&&inF(t.f)&&pOf(t)<100);let c="";
+for(let i=0;i<w;i++)c+="<span></span>";
+for(let d=1;d<=n;d++){const q=`${cm}-${pad(d)}`;c+=`<button data-a="pd" data-d="${q}" class="${q===selDate?"sel":""} ${q===td()?"tdy":""} ${dayIds(q).some(i=>inF(gt(i).f))?"dt":""} ${dueOn(q).length?"du":""} ${F&&!inRange(F.id,q)?"out":""}">${d}</button>`}
+const dv=dueOn(selDate),oor=F&&!inRange(F.id,selDate);
+return`<h2>今日のやること</h2><div class="row sp"><button class="ic" data-a="cmv" data-n="-1">‹</button><b>${y}年${m}月</b><button class="ic" data-a="cmv" data-n="1">›</button></div>
+<div class="cal">${"日月火水木金土".split("").map(x=>`<small>${x}</small>`).join("")}${c}</div><small>青い点＝予定あり　赤い▼＝提出期限${F&&(F.start||F.end)?`　薄い日＝フォルダ期間外`:""}</small>
+<div class="row sp" style="margin-top:10px"><b>${jd(selDate)}</b><small>${p.length}件</small></div>
+${oor?`<div class="c" style="border-color:var(--wa);margin-top:8px">この日は「${esc(F.name)}」の期間外のため、やることを設定できません。</div>`:""}
+${dv.length?`<div class="c" style="margin-top:8px"><small>この日が提出期限</small>${dv.map(t=>`<div>▼ ${esc(t.title)} <small>${esc(sj(t.s).name)}</small></div>`).join("")}</div>`:""}
+${od.length?`<button class="btn w" style="margin-top:8px" data-a="carry">未完了${od.length}件を今日に持ち越す</button>`:""}
+<div class="c" style="margin-top:8px">${p.map(t=>{const q=pOf(t,selDate);return`<div class="it"><span class="dot" style="background:${sj(t.s).color}"></span><div class="fl"><b>${esc(t.title)}</b>${t.rep?' <span class="tag">毎日</span>':""}<div class="bar"><i style="width:${q}%"></i></div></div><button class="chip" data-a="fin" data-i="${t.id}">${q>=100?"完了":"✓"}</button>${t.rep?"":`<button class="chip" data-a="prm" data-i="${t.id}">×</button>`}</div>`}).join("")||'<p class="mu">この日のやることはまだありません。</p>'}</div>
+${oor?"":`<button class="btn pri w" data-a="pick">＋ 全体リストから選ぶ</button>`}`};
+V.timer=()=>{if(!T){const p=dayIds(td()).map(gt).filter(t=>t&&inF(t.f)&&pOf(t)<100);
+return`<div class="row sp"><button class="ic" data-a="nav" data-v="home">‹</button><b>勉強タイマー</b><span></span></div><div id="live"></div><h3>やることを選ぶ</h3><div class="c">${p.map(t=>`<label class="it"><input type="radio" name="pk" value="${t.id}"><span class="dot" style="background:${sj(t.s).color}"></span><div class="fl"><b>${esc(t.title)}</b><br><small>${esc(sj(t.s).name)}・${pOf(t)}%</small></div></label>`).join("")||'<p class="mu">今日のやることが空です。「今日」で選んでください。</p>'}</div><button class="btn pri w" data-a="tstart">▶ スタート</button>`}
+return`<div id="live"></div><div class="ctl"><button class="btn" data-a="brk">休憩</button><button class="btn" data-a="tp">${T.st==="run"?"一時停止":"再開"}</button><button class="btn pri" data-a="tstop">■ ストップ</button></div>`};
+V.stats=()=>{const ds=[...Array(7)].map((_,i)=>addD(td(),i-6)),mx=Math.max(S.set.goal*60,...ds.map(d=>secOn(d))),wk=ds.reduce((a,d)=>a+secOn(d),0),tg=secOn(td(),0,1);
+const bs=S.subjects.map(s=>({s,v:S.logs.filter(l=>l.s===s.id&&inF(l.f)&&ds.includes(l.d)).reduce((a,l)=>a+l.sec,0)})).filter(x=>x.v),R=S.results.filter(r=>inF(r.f)),tgR=R.filter(r=>r.tg),okN=tgR.filter(r=>r.sc>=r.tg).length,memo=S.logs.filter(l=>l.m&&inF(l.f)).slice(-5).reverse();
+return`<h2>記録</h2><div class="c"><b>🔥 ${streak()}日連続</b> <small>今日 ${Math.round(tg/60)}分 / 目標 ${S.set.goal}分</small><div class="bar"><i style="width:${Math.min(100,tg/60/S.set.goal*100)}%"></i></div></div>
+<div class="c"><b>この7日間 ${hm(wk)}</b><div class="ch">${ds.map(d=>`<div><i style="height:${secOn(d)/mx*100}%"></i><small>${+d.slice(8)}</small></div>`).join("")}</div></div>
+${heat()}<div class="c"><b>教科別（7日間）</b>${bs.map(o=>`<div class="row sp" style="padding:4px 0"><span><span class="dot" style="display:inline-block;background:${o.s.color}"></span> ${esc(o.s.name)}</span><span>${hm(o.v)}</span></div>`).join("")||'<p class="mu">まだ記録がありません</p>'}</div>
+<div class="row sp"><h3>考査の結果</h3><button class="chip" data-a="redit">＋追加</button></div><div class="c"><b>点数の推移</b>${tgR.length?` <small>目標達成 ${okN}/${tgR.length}</small>`:""}${rchart(R)}</div><div class="c">${R.map(r=>`<div class="it" data-a="redit" data-i="${r.id}"><div class="fl"><b>${esc(sj(r.s).name)}</b>${S.cur==="all"&&fo(r.f)?` <small>${esc(fo(r.f).name)}</small>`:""}</div><span style="text-align:right">${r.sc}点${r.tg?` / 目標${r.tg}`:""}${r.rk?` / ${r.rk}位`:""}${r.tg?(r.sc>=r.tg?` <span class="tag m">達成 +${r.sc-r.tg}</span>`:` <span class="tag r">あと${r.tg-r.sc}点</span>`):""}</span></div>`).join("")||'<p class="mu">結果を記録しましょう</p>'}</div>
+<h3>勉強時間と点数</h3><div class="c">${tsCard(R)||'<p class="mu">考査の結果を記録すると、勉強時間との関係が見られます</p>'}</div>
+<h3>最近のメモ</h3><div class="c">${memo.map(l=>`<p><small>${l.d} ${esc(sj(l.s).name)}</small><br>${esc(l.m)}</p>`).join("")||'<p class="mu">ストップ時のメモが並びます</p>'}</div>`};
+V.set=()=>`<div class="row sp"><button class="ic" data-a="nav" data-v="home">‹</button><h2 style="margin:0">設定</h2><span></span></div>
+<div class="row sp"><h3>教科</h3><button class="chip" data-a="sedit">＋追加</button></div><div class="c">${S.subjects.map(s=>`<div class="it" data-a="sedit" data-i="${s.id}"><span class="dot" style="background:${s.color}"></span><b class="fl">${esc(s.name)}</b><button class="chip" data-a="sjv" data-i="${s.id}">やること一覧</button><small>編集</small></div>`).join("")||'<p class="mu">教科を追加してください</p>'}</div>
+<div class="row sp"><h3>勉強フォルダ（考査）</h3><button class="chip" data-a="fedit">＋追加</button></div><div class="c">${S.folders.map(f=>`<div class="it" data-a="fedit" data-i="${f.id}"><b class="fl">📁 ${esc(f.name)}${f.arch?" （アーカイブ）":""}</b><small>${f.start||"未設定"}${f.end?" 〜 "+f.end:""}</small></div>`).join("")||'<p class="mu">例：2学期中間考査</p>'}</div>
+<h3>表示・タイマー</h3><div class="c"><label>テーマ</label>${sel("th",[["light","ライト"],["dark","ダーク"],["pastel","パステル"],["mint","ミント"]],S.set.theme).replace("<select",'<select data-s="theme"')}
+<label>文字サイズ</label>${sel("fz",[[14,"小"],[16,"中"],[18,"大"]],S.set.fs).replace("<select",'<select data-s="fs"')}
+<label>1日の目標（分）</label><input type="number" data-s="goal" value="${S.set.goal}"><label>休憩の標準（分）</label><input type="number" data-s="brk" value="${S.set.brk}">
+<label class="row"><input type="checkbox" data-s="pomo" ${S.set.pomo?"checked":""}>ポモドーロ（25分ごとに自動で休憩）</label><label class="row" style="margin-top:8px"><input type="checkbox" data-s="vib" ${S.set.vib?"checked":""}>終了時にバイブ</label></div>
+<h3>データ</h3><div class="row" style="margin-bottom:10px"><button class="btn fl" data-a="ejson">JSON書き出し</button><button class="btn fl" data-a="ecsv">CSV書き出し</button></div><button class="btn w" data-a="ijson">JSON読み込み（復元）</button><p class="mu">データはこの端末のブラウザ内に保存されます。機種変更やブラウザのデータ削除に備えて、ときどき「JSON書き出し」でバックアップしてください。</p>`;
+
+function render(){document.documentElement.dataset.t=S.set.theme;document.documentElement.style.fontSize=S.set.fs+"px";
+$("#app").innerHTML=(V[view]||V.home)();$("#nv").style.display=!["timer"].includes(view)?"grid":"none";
+document.querySelectorAll("#nv [data-v]").forEach(b=>b.classList.toggle("on",b.dataset.v===view));live()}
+function live(){const bo=$("#bo");
+if(T&&T.st==="brk"){bo.innerHTML=`<small>休憩中</small><div class="big">${fmt(Math.max(0,Math.ceil((T.bend-Date.now())/1e3))).slice(3)}</div><button class="btn" data-a="bend">休憩を終える</button>`;bo.classList.add("on")}else bo.classList.remove("on");
+const e=$("#live");if(!e||view!=="timer")return;const n=new Date(),t=T&&gt(T.todo),ids=[...new Set(dayIds(td()).filter(i=>inF(gt(i).f)).map(i=>gt(i).s).concat(T?[T.subj]:[]))].filter(Boolean);
+e.innerHTML=`<small>${jd(td())} ${pad(n.getHours())}:${pad(n.getMinutes())}</small>${T?`<div class="now">📖 ${esc(t?.title)}　<small>${fmt(el())}</small></div>`:""}<div class="big">${fmt(secOn(td())+el())}</div><small>今日の合計</small><div class="subs">${ids.map(s=>`<div><span><span class="dot" style="display:inline-block;background:${sj(s).color}"></span> ${esc(sj(s).name)}</span><span>${fmt(secOn(td(),s)+(T&&T.subj===s?el():0))}</span></div>`).join("")}</div>`}
+
+const A={};
+document.addEventListener("click",e=>{if(e.target.id==="md")return X();const b=e.target.closest("[data-a]");if(b&&A[b.dataset.a])A[b.dataset.a](b.dataset)});
+document.addEventListener("change",e=>{const t=e.target;if(t.id==="cf"){S.cur=t.value;save();render()}
+const g=t.dataset.g;if(g==="mch")showM();if(g==="fch"||g==="dch")lim();if(g==="rch"){$("#rb").style.display=t.checked?"block":"none";lim()}
+if(t.dataset.s!==undefined&&t.closest("#app")&&t.dataset.a===undefined){const k=t.dataset.s;S.set[k]=t.type==="checkbox"?+t.checked:t.type==="number"||k==="fs"?+t.value:t.value;save();render()}});
+document.addEventListener("input",e=>{if(e.target.id==="pg"&&T&&gt(T.todo))$("#pv").textContent=slT(gt(T.todo),+e.target.value)});
+A.nav=d=>{X();view=d.v;if(view==="today"){selDate=td();cm=td().slice(0,7)}render()};
+A.fs=d=>{fs=d.s;render()};
+A.pd=d=>{selDate=d.d;render()};A.cmv=d=>{const[y,m]=cm.split("-").map(Number),n=new Date(y,m-1+ +d.n,1);cm=`${n.getFullYear()}-${pad(n.getMonth()+1)}`;render()};
+A.fin=d=>{const t=gt(d.i);setSt(t,selDate,pOf(t,selDate)>=100?zero(t):full(t));save();render()};
+A.prm=d=>{S.plan[selDate]=(S.plan[selDate]||[]).filter(i=>i!==d.i);save();render()};
+A.carry=()=>{S.plan[td()]=[...(S.plan[td()]||[]),...overdue()];save();render()};
+A.qadd=d=>{const p=S.plan[td()]||[];if(!p.includes(d.i))S.plan[td()]=[...p,d.i];save();render();toast("今日のやることに入れました")};
+A.smv=d=>{const[y,m]=sm.split("-").map(Number),n=new Date(y,m-1+ +d.n,1);sm=`${n.getFullYear()}-${pad(n.getMonth()+1)}`;hs="";render()};
+A.hd=d=>{hs=hs===d.d?"":d.d;render()};
+A.tsp=d=>{$("#tsx").value=d.s;document.querySelectorAll("#tsc .chip").forEach(c=>c.classList.toggle("on",c.dataset.s===d.s))};
+A.gset=()=>{X();view="set";render()};
+A.sjv=d=>{sback=view==="subj"?sback:view;sid=d.i;view="subj";X();render();scrollTo(0,0)};
+A.sback=()=>{view=sback||"home";render()};
+A.tgl=()=>{S.set.all=S.set.all?0:1;save();render()};
+A.pick=()=>{const cur=S.plan[selDate]||[],sc=S.todos.filter(t=>!t.rep&&inF(t.f)&&(pOf(t)<100||cur.includes(t.id))),L=sc.filter(t=>inRange(t.f,selDate)),ex=sc.length-L.length;
+M(`<h3>${jd(selDate)}のやること</h3><div class="row" style="flex-wrap:wrap;margin-bottom:8px"><button class="chip on" data-a="pf" data-s="">全部</button>${S.subjects.map(s=>`<button class="chip" data-a="pf" data-s="${s.id}">${esc(s.name)}</button>`).join("")}</div>${L.map(t=>`<label class="it" data-s="${t.s}"><input type="checkbox" value="${t.id}" ${cur.includes(t.id)?"checked":""}><div class="fl"><b>${esc(t.title)}</b><br><small>${esc(sj(t.s).name)}${t.due?"・〆"+t.due.slice(5):""}${t.must?"・必須":""}</small></div></label>`).join("")||'<p class="mu">選べるやることがありません</p>'}${ex?`<p class="mu">フォルダの期間外で選べないもの：${ex}件</p>`:""}<button class="btn pri w" style="margin-top:12px" data-a="psave">決定</button>`)};
+A.pf=d=>{document.querySelectorAll("#md .chip").forEach(c=>c.classList.toggle("on",c.dataset.s===d.s));document.querySelectorAll("#md label[data-s]").forEach(l=>l.style.display=!d.s||l.dataset.s===d.s?"":"none")};
+A.psave=()=>{const sh=[...document.querySelectorAll("#md input")].map(i=>i.value),ck=[...document.querySelectorAll("#md input:checked")].map(i=>i.value);S.plan[selDate]=[...(S.plan[selDate]||[]).filter(i=>!sh.includes(i)),...ck];save();X();render()};
+A.tedit=d=>{const t=d.i?gt(d.i):{title:"",s:d.s||S.subjects[0]?.id,f:S.cur!=="all"?S.cur:S.folders.find(f=>!f.arch)?.id,due:"",must:1,rep:0,rs:td(),m:"pct",n:10,u:"問",a:1,b:10,it:[]};
+const cs=S.subjects.some(x=>x.id===t.s)?t.s:(d.i?"":S.subjects[0]?.id||"");
+M(`<h3>${d.i?"やることを編集":"やることを追加"}</h3>
+<label>やることの名前</label><input id="tt" placeholder="例：ワーク p.20-30" value="${esc(t.title)}">
+<label>教科${d.i&&!cs&&S.subjects.length?" <small style=\"color:var(--wa)\">（元の教科が削除されています。選び直してください）</small>":""}</label>${S.subjects.length?`<input type="hidden" id="tsx" value="${cs}"><div class="row" id="tsc" style="flex-wrap:wrap;gap:6px;margin:4px 0 10px">${S.subjects.map(s=>`<button class="chip ${s.id===cs?"on":""}" data-a="tsp" data-s="${s.id}"><span class="dot" style="display:inline-block;background:${s.color};margin-right:4px"></span>${esc(s.name)}</button>`).join("")}</div>`:'<div class="c" style="margin:4px 0 10px"><small>教科がまだありません。先に設定で追加してください。</small><br><button class="chip" style="margin-top:6px" data-a="gset">設定で教科を追加する</button></div>'}
+<label>期限（空欄でなし／フォルダの最終日まで）</label><input id="td" type="date" data-g="dch" value="${t.due||""}">
+<label>必須かどうか</label>${sel("tm",[[1,"必須"],[0,"やれたら"]],t.must?1:0)}
+<label class="row"><input id="tr" type="checkbox" data-g="rch" ${t.rep?"checked":""}>毎日のやることにする（日ごとの進捗）</label><div id="rb" style="display:${t.rep?"block":"none"}"><label>開始日（終了日は上の「期限」）</label><input id="rs" type="date" data-g="dch" value="${t.rs||td()}"></div>
+<label>進行度の入力方法</label>${sel("pm",[["pct","％スライダー"],["cnt","個数（問題数・単語数など）"],["rng","ページ範囲"],["chk","チェックリスト"]],t.m||"pct").replace("<select",'<select data-g="mch"')}
+<div class="mb" data-m="cnt"><div class="row"><input id="mn" type="number" placeholder="全部で" value="${t.n||""}"><input id="mu" placeholder="単位（問・語）" value="${esc(t.u||"")}"></div></div><div class="mb" data-m="rng"><div class="row"><input id="ma" type="number" placeholder="開始p" value="${t.a||""}"><input id="mb" type="number" placeholder="終了p" value="${t.b||""}"></div></div><div class="mb" data-m="chk"><textarea id="mi" rows="3" placeholder="1行に1項目">${esc((t.it||[]).join("\n"))}</textarea></div>
+${S.folders.length?`<label>入れるフォルダ（考査）</label>`+sel("tf",S.folders.filter(f=>!f.arch||f.id===t.f).map(f=>[f.id,"📁 "+f.name]),t.f).replace("<select",'<select data-g="fch"'):""}
+<div class="row" style="margin-top:10px"><button class="btn pri fl" data-a="tsv" data-i="${d.i||""}">保存</button>${d.i?`<button class="btn" data-a="tdel" data-i="${d.i}">削除</button>`:""}</div>`);showM();lim()};
+A.tsv=d=>{const ti=val("tt").trim();if(!ti)return toast("名前を入力してください");const f=fo($("#tf")?.value),m=val("pm"),due=val("td")||null,rep=$("#tr").checked?1:0,rs=rep?val("rs")||td():null;
+if(due&&f?.end&&due>f.end)return toast(`期限は「${f.name}」の最終日（${f.end}）までです`);
+if(rep&&((f?.start&&rs<f.start)||(due&&rs>due)))return toast("開始日は、フォルダの開始日以降・終了日以前にしてください");
+if(!$("#tsx"))return toast("先に設定で教科を追加してください");if(!val("tsx"))return toast("教科を選んでください");
+const o={title:ti,s:val("tsx"),f:f?.id||null,due,must:+val("tm"),rep,rs,m};
+if(m==="cnt"){o.n=+val("mn")||0;o.u=val("mu").trim();if(o.n<1)return toast("全体の数を入力してください")}
+if(m==="rng"){o.a=+val("ma");o.b=+val("mb");if(!(o.a>=1&&o.b>=o.a))return toast("ページ範囲を正しく入力してください")}
+if(m==="chk"){o.it=val("mi").split("\n").map(v=>v.trim()).filter(Boolean);if(!o.it.length)return toast("項目を1つ以上入力してください")}
+if(d.i)Object.assign(gt(d.i),o);else S.todos.push({id:uid(),sx:{},...o});save();X();render()};
+A.tdel=d=>{S.todos=S.todos.filter(t=>t.id!==d.i);for(const k in S.plan)S.plan[k]=S.plan[k].filter(i=>i!==d.i);save();X();render()};
+A.stp=d=>{const i=$("#pg");i.value=Math.max(+i.min,Math.min(+i.max,(+i.value||0)+ +d.n));i.dispatchEvent(new Event("input",{bubbles:true}))};
+A.sedit=d=>{const s=d.i?sj(d.i):{name:"",color:COL[S.subjects.length%8]};M(`<h3>教科</h3><input id="sn" placeholder="教科名" value="${esc(s.name)}"><input id="sc" type="color" value="${s.color}"><div class="row"><button class="btn pri fl" data-a="ssv" data-i="${d.i||""}">保存</button>${d.i?`<button class="btn" data-a="sdel" data-i="${d.i}">削除</button>`:""}</div>`)};
+A.ssv=d=>{const n=val("sn").trim();if(!n)return toast("教科名を入力してください");if(d.i){Object.assign(sj(d.i),{name:n,color:val("sc")})}else S.subjects.push({id:uid(),name:n,color:val("sc")});save();X();render()};
+A.sdel=d=>{if(confirm("この教科を削除しますか？（やることは「未設定」になります）")){S.subjects=S.subjects.filter(s=>s.id!==d.i);save();X();render()}};
+A.fedit=d=>{const f=d.i?S.folders.find(x=>x.id===d.i):{name:"",start:"",end:"",arch:0};M(`<h3>勉強フォルダ</h3><input id="fn" placeholder="例：2学期中間考査" value="${esc(f.name)}"><label>開始日（任意）</label><input id="fa" type="date" value="${f.start||""}"><label>最終日（任意）</label><input id="fb" type="date" value="${f.end||""}"><label class="row"><input id="fr" type="checkbox" ${f.arch?"checked":""}>アーカイブ（選択肢から隠す）</label><div class="row" style="margin-top:14px"><button class="btn pri fl" data-a="fsv" data-i="${d.i||""}">保存</button>${d.i?`<button class="btn" data-a="fdel" data-i="${d.i}">削除</button>`:""}</div>`)};
+A.fsv=d=>{const n=val("fn").trim();if(!n)return toast("名前を入力してください");const o={name:n,start:val("fa")||null,end:val("fb")||null,arch:$("#fr").checked?1:0};
+if(d.i)Object.assign(S.folders.find(x=>x.id===d.i),o);else{const f={id:uid(),...o};S.folders.push(f);if(S.folders.length===1){S.cur=f.id;S.todos.forEach(t=>{if(!t.f)t.f=f.id});S.results.forEach(r=>{if(!r.f)r.f=f.id});S.logs.forEach(l=>{if(!l.f)l.f=f.id})}}save();X();render()};
+A.fdel=d=>{if(confirm("フォルダと中のやることを削除しますか？")){S.todos=S.todos.filter(t=>t.f!==d.i);S.folders=S.folders.filter(f=>f.id!==d.i);if(S.cur===d.i)S.cur="all";save();X();render()}};
+A.redit=d=>{const r=d.i?S.results.find(x=>x.id===d.i):{f:S.cur!=="all"?S.cur:S.folders[0]?.id,s:d.s||S.subjects[0]?.id,sc:"",tg:"",rk:""};M(`<h3>考査の結果</h3>${S.folders.length?sel("rf",S.folders.map(f=>[f.id,"📁 "+f.name]),r.f):""}${sel("rs",S.subjects.map(s=>[s.id,s.name]),r.s)}<input id="rc" type="number" placeholder="点数" value="${r.sc}"><input id="rt" type="number" placeholder="目標点（任意）" value="${r.tg||""}"><input id="rk" type="number" placeholder="順位（任意）" value="${r.rk||""}"><div class="row"><button class="btn pri fl" data-a="rsv" data-i="${d.i||""}">保存</button>${d.i?`<button class="btn" data-a="rdel" data-i="${d.i}">削除</button>`:""}</div>`)};
+A.rsv=d=>{if(val("rc")==="")return toast("点数を入力してください");const o={f:$("#rf")?.value||null,s:val("rs"),sc:+val("rc"),tg:+val("rt")||null,rk:+val("rk")||null};if(d.i)Object.assign(S.results.find(x=>x.id===d.i),o);else S.results.push({id:uid(),...o});save();X();render()};
+A.rtg=d=>{hid=hid.includes(d.i)?hid.filter(x=>x!==d.i):[...hid,d.i];render()};
+A.rdel=d=>{S.results=S.results.filter(r=>r.id!==d.i);save();X();render()};
+
+A.tstart=()=>{const r=document.querySelector("[name=pk]:checked");if(!r)return toast("やることを選んでください");const t=gt(r.value);ac=ac||new AudioContext();ac.resume();
+T={u:U.uid,todo:t.id,subj:t.s,d:td(),acc:0,seg:0,st:"run",t0:Date.now()};sT();navigator.wakeLock?.request("screen").then(w=>wl=w).catch(()=>{});render()};
+A.tp=()=>{bank();T.st=T.st==="run"?"pause":"run";T.t0=Date.now();sT();render()};
+A.brk=()=>M(`<h3>休憩する時間（分）</h3><div class="row" style="margin-bottom:8px">${[5,10,15].map(m=>`<button class="chip" data-a="bset" data-m="${m}">${m}分</button>`).join("")}</div><input id="bm" type="number" value="${S.set.brk}"><button class="btn pri w" data-a="brkgo">休憩スタート</button>`);
+A.bset=d=>{$("#bm").value=d.m};
+A.brkgo=()=>{const m=+val("bm")||5;bank();T.st="brk";T.bend=Date.now()+m*6e4;sT();X();render()};
+A.bend=()=>{T.st="run";T.t0=Date.now();sT();render()};
+A.tstop=()=>{bank();const t=gt(T.todo);M(`<h3>${esc(t.title)}</h3><p class="mu">${fmt(T.acc)} 勉強しました${t.rep?"（"+jd(T.d)+"の進捗）":""}</p>${pEd(t,gs(t,T.d))}<textarea id="mm" rows="2" placeholder="ひとことメモ（任意）"></textarea><button class="btn pri w" data-a="tsave">保存</button>`)};
+A.tsave=()=>{const t=gt(T.todo),o=pRd(t),mm=val("mm").trim();if(T.acc>=1)S.logs.push({d:T.d,t:t.id,s:t.s,f:t.f,sec:Math.round(T.acc),m:mm});setSt(t,T.d,o);const p=pOf(t,T.d),rp=t.rep;T=null;sT();wl?.release?.();save();
+M(`<h3>保存しました</h3>${p>=100?`<p>${rp?"今日の分は100%！":"100%達成！次回から選択肢に出ません。"}</p>`:""}<div class="row" style="margin-top:12px"><button class="btn fl" data-a="nav" data-v="home">ホームへ</button><button class="btn pri fl" data-a="again">続けて勉強</button></div>`)};
+A.again=()=>{X();view="timer";render()};
+
+const dl=(n,x,m)=>{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([x],{type:m}));a.download=n;a.click()};
+A.ejson=()=>dl("study.json",JSON.stringify(S,null,1),"application/json");
+A.ecsv=()=>dl("logs.csv","\ufeff日付,教科,やること,秒,メモ\n"+S.logs.map(l=>[l.d,sj(l.s).name,gt(l.t)?.title||"",l.sec,l.m||""].map(x=>`"${String(x).replace(/"/g,'""')}"`).join(",")).join("\n"),"text/csv");
+A.ijson=()=>{const i=document.createElement("input");i.type="file";i.accept=".json,application/json";i.onchange=()=>{const f=i.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!Array.isArray(d.subjects)||!Array.isArray(d.todos))throw 0;if(!confirm("今のデータを、読み込んだデータで置き換えますか？"))return;S={...D0(),...d};S.set={...D0().set,...S.set};save();view="home";render();toast("読み込みました")}catch{toast("読み込めないファイルです")}};r.readAsText(f)};i.click()};
+
+function init(){
+let raw=localStorage.getItem("sn_data");
+if(!raw){/* 旧バージョン（ログイン版）の端末内データを引き継ぐ */let best=null;Object.keys(localStorage).filter(k=>k.startsWith("sn_")&&k!=="sn_t"&&k!=="sn_data").forEach(k=>{const v=localStorage.getItem(k);if(!best||v.length>best.length)best=v});raw=best}
+try{S={...D0(),...JSON.parse(raw||"null")}}catch{S=D0()}
+S.set={...D0().set,...S.set};
+if(S.cur!=="all"&&!S.folders.some(f=>f.id===S.cur))S.cur="all";S.logs.forEach(l=>{if(l.f===undefined)l.f=gt(l.t)?.f??null});
+try{const t=JSON.parse(localStorage.getItem("sn_t")||"null");if(t){T=t;T.u=U.uid;if(T.st==="run")T.t0=T.t0||Date.now()}}catch{}
+view=T?"timer":"home";save();render();
+navigator.storage?.persist?.().catch(()=>{})}
+setInterval(()=>{if(!U)return;if(T){if(T.st==="brk"&&Date.now()>=T.bend){T.st="pause";T.t0=Date.now();sT();beep();return render()}
+if(T.st==="run"&&S.set.pomo&&sg()>=1500){bank();T.seg=0;T.st="brk";T.bend=Date.now()+S.set.brk*6e4;sT();beep();return render()}}
+if(view==="timer"||(T&&T.st==="brk"))live()},500);
+init();
+</script></body></html>
